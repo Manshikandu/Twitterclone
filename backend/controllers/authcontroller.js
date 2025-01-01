@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs"
 
 export const signup = async (req,res)=>{
     try{
-        const{fullname,username,email,password}=req.body;
+        const{fullName,username,email,password}=req.body;
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!emailRegex.test(email)) {
@@ -33,7 +33,7 @@ export const signup = async (req,res)=>{
         const hashedPassword = await bcrypt.hash(password, salt);
 
         const newUser = new user({        //create user
-            fullname,
+            fullName,
             username,
             email,
             password: hashedPassword
@@ -45,7 +45,7 @@ export const signup = async (req,res)=>{
 
 			res.status(201).json({
 				_id: newUser._id,
-				fullname: newUser.fullname,
+				fullName: newUser.fullName,
 				username: newUser.username,
 				email: newUser.email,
 				followers: newUser.followers,
@@ -65,7 +65,8 @@ export const signup = async (req,res)=>{
 
     export const login = async (req, res) => {
         try {
-            const { username, password } = req.body;
+            const username = req.body.username;
+            const password = req.body.password
             const User = await user.findOne({ username });
             const isPasswordCorrect = await bcrypt.compare(password, User?.password || "");
     
@@ -77,8 +78,8 @@ export const signup = async (req,res)=>{
     
             res.status(200).json({
                 _id: User._id,
-                fullname: User.fullname,
                 username: User.username,
+                fullName: User.fullName,
                 email: User.email,
                 followers: User.followers,
                 following: User.following,
@@ -90,6 +91,7 @@ export const signup = async (req,res)=>{
             res.status(500).json({ error: "Internal Server Error" });
         }
     };
+  
 
 
 
