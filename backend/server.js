@@ -25,8 +25,6 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json())
 app.use(express.urlencoded({extended: true }))    //to parse url data with(urlencoded) 
 app.use(cookieParser())
-// console.log(process.env.MONGO_URI)
-
 app.use("/api/auth",authRoutes);
 app.use("/api/users",userRoutes);
 app.use("/api/posts",postRoutes);
